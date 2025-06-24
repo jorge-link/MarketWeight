@@ -5,23 +5,27 @@ public interface IRepoUsuario :
     IRepoListado<Usuario>,
     IRepoDetalle<Usuario, uint>
 {
-    public void Compra(uint idusuario, decimal cantidad, uint idmoneda)
-    {}
+    void Compra(uint idusuario, decimal cantidad, uint idmoneda);
+    Task CompraAsync(uint idusuario, decimal cantidad, uint idmoneda);
 
-    public void Vender(uint idusuario, decimal cantidad, uint idmoneda)
-    {}
+    void Vender(uint idusuario, decimal cantidad, uint idmoneda);
+    Task VenderAsync(uint idusuario, decimal cantidad, uint idmoneda);
 
-    public void Ingreso(uint idusuario, decimal saldo)
-    {}
-    public void Transferencia( uint idmoneda, decimal cantidad, uint idusuarioTransfiere, uint idusuarioTransferido)
-    {}
+    void Ingreso(uint idusuario, decimal saldo);
+    Task IngresoAsync(uint idusuario, decimal saldo);
 
-    public IEnumerable<Usuario> ObtenerPorCondicion (string condicion);
+    void Transferencia(uint idmoneda, decimal cantidad, uint idusuarioTransfiere, uint idusuarioTransferido);
+    Task TransferenciaAsync(uint idmoneda, decimal cantidad, uint idusuarioTransfiere, uint idusuarioTransferido);
 
-    public IEnumerable<UsuarioMoneda> ObtenerUsuarioMoneda();
+    IEnumerable<Usuario> ObtenerPorCondicion(string condicion);
+    Task<IEnumerable<Usuario>> ObtenerPorCondicionAsync(string condicion);
 
-    public IEnumerable<UsuarioMoneda> ObtenerPorCondicionUsuarioMoneda (uint? userid, decimal? cantidad);
+    IEnumerable<UsuarioMoneda> ObtenerUsuarioMoneda();
+    Task<IEnumerable<UsuarioMoneda>> ObtenerUsuarioMonedaAsync();
 
-    public Usuario? DetalleCompleto(uint idUsuario);
+    IEnumerable<UsuarioMoneda> ObtenerPorCondicionUsuarioMoneda(uint? userid, decimal? cantidad);
+    Task<IEnumerable<UsuarioMoneda>> ObtenerPorCondicionUsuarioMonedaAsync(uint? userid, decimal? cantidad);
 
+    Usuario? DetalleCompleto(uint idUsuario);
+    Task<Usuario?> DetalleCompletoAsync(uint idUsuario);
 }

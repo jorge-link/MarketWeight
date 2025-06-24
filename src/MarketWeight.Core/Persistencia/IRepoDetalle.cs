@@ -9,5 +9,7 @@ public interface IRepoDetalle<T, IS> where IS : IBinaryNumber<IS>
     /// </summary>
     /// <param name="indiceABuscar">Indice por el cual hara la busqueda</param>
     /// <returns>Un elemento si encuentra, o null</returns>
-    T? Detalle (IS indiceABuscar);
+    T? Detalle(IS indiceABuscar);
+
+    Task<T?> DetalleAsync(IS indiceABuscar);
 }

@@ -1,4 +1,5 @@
 using System.Formats.Asn1;
+using System.Threading.Tasks;
 using MarketWeight.Core;
 using MarketWeight.Core.Persistencia;
 using MySqlConnector;
@@ -12,7 +13,6 @@ public class RepoUsuarioTest : TestBase
         => _repo = new RepoUsuario(Conexion);
     
     [Fact]
-
     public void TraerOK()
     {
         var usuarios = _repo.Obtener();
@@ -21,7 +21,15 @@ public class RepoUsuarioTest : TestBase
         Assert.Contains(usuarios,
             m => m.Nombre == "Ana");
     }
-
+    [Fact]
+    public async Task TraerAsyncOK()
+    {
+        var usuarios = await _repo.ObtenerAsync();
+        
+        Assert.NotEmpty(usuarios);
+        Assert.Contains(usuarios,
+            m => m.Nombre == "Ana");
+    }
     [Fact]
 
     public void IngresarDineroOK()
@@ -35,7 +43,19 @@ public class RepoUsuarioTest : TestBase
         _repo.Ingreso(4, 6666m);
 
     }
+    [Fact]
 
+    public async Task IngresarDineroAsyncOK()
+    {
+        await _repo.IngresoAsync(1, 7707m);
+
+        await _repo.IngresoAsync(2, 420m);
+
+        await _repo.IngresoAsync(3, 5000m);
+
+        await _repo.IngresoAsync(4, 6666m);
+
+    }
     [Fact]
     public void AltaUsuarioOK()
     {
@@ -79,6 +99,21 @@ public class RepoUsuarioTest : TestBase
     }
 
     [Fact]
+    public async Task AltaUsuarioAsyncOK()
+    {
+        Usuario usuariofran = new()
+        {
+            Nombre = "Francisco",
+            Apellido = "Garcia",
+            Email = "FranciscoGarcia@gmail.com",
+            Password = "314159265358979"
+        };
+
+
+        await _repo.AltaAsync(usuariofran);
+    }
+
+    [Fact]
     public void ComprarMonedaOK()
     {
         _repo.Compra(3, 0.5m, 2);
@@ -86,6 +121,16 @@ public class RepoUsuarioTest : TestBase
         _repo.Compra(2, 1m, 3);
 
         _repo.Compra(2, 0.5m, 1);
+    }
+
+        [Fact]
+    public async Task ComprarMonedaAsyncOK()
+    {
+        await _repo.CompraAsync(3, 0.5m, 2);
+
+        await _repo.CompraAsync(2, 1m, 3);
+
+        await _repo.CompraAsync(2, 0.5m, 1);
     }
 
     [Fact]
@@ -142,7 +187,7 @@ public class RepoUsuarioTest : TestBase
 
     }
 
-     [Fact]
+    [Fact]
     public void DetalleCompletoOK()
     {
         var usuario =_repo.DetalleCompleto(1);

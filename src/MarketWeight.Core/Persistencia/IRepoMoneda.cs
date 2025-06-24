@@ -6,4 +6,7 @@ public interface IRepoMoneda :
     IRepoDetalle<Moneda, uint>
 {
     public IEnumerable<Moneda> ObtenerConCondicion(string condicion);
+
+    public Task<IEnumerable<Moneda>> ObtenerConCondicionAsync(string condicion);
+    
 }
