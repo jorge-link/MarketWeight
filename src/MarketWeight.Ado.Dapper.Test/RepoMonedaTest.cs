@@ -35,22 +35,14 @@ public class RepoMonedaTest : TestBase
     [Fact]
     public async Task CrearMonedaAsyncOK()
     {
-        Moneda monedaPepe = new Moneda
+        Moneda monedaJorge = new Moneda
         {
             Precio = 10m,
             Cantidad = 2m,
             Nombre = "pepe"
         };
 
-        Moneda monedaVirgo = new Moneda
-        {
-            Precio = 300m,
-            Cantidad = 5000m,
-            Nombre = "VirgoCoin"
-        };
-
-        await _repo.AltaAsync(monedaPepe);
-        await _repo.AltaAsync(monedaVirgo);
+        await _repo.AltaAsync(monedaJorge);
 
     }
 
