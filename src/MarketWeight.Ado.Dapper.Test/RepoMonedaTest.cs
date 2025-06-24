@@ -30,6 +30,12 @@ public class RepoMonedaTest : TestBase
         _repo.Alta(monedaPepe);
         _repo.Alta(monedaVirgo);
 
+        var monedas = _repo.Obtener();
+
+        Assert.NotEmpty(monedas);
+        Assert.Contains(monedas,
+            m => m.Nombre == "pepe" || m.Nombre == "VirgoCoin");
+
     }
 
     [Fact]
@@ -39,10 +45,16 @@ public class RepoMonedaTest : TestBase
         {
             Precio = 10m,
             Cantidad = 2m,
-            Nombre = "pepe"
+            Nombre = "JorgeCoin"
         };
 
         await _repo.AltaAsync(monedaJorge);
+
+        var monedas = await _repo.ObtenerAsync();
+
+        Assert.NotEmpty(monedas);
+        Assert.Contains(monedas,
+            m => m.Nombre == "JorgeCoin");
 
     }
 

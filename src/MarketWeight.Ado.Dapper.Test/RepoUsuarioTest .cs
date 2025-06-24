@@ -1,4 +1,5 @@
 using System.Formats.Asn1;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using MarketWeight.Core;
 using MarketWeight.Core.Persistencia;
@@ -96,6 +97,12 @@ public class RepoUsuarioTest : TestBase
         _repo.Alta(usuarioJorge);
         _repo.Alta(usuarioGuido);
         _repo.Alta(usuarioCarlos);
+
+        var usuarios = _repo.Obtener();
+
+        Assert.NotEmpty(usuarios);
+        Assert.Contains(usuarios,
+                        u => Regex.Match(u.Nombre, @"Walte|Jorge|Guido|Carlos").Success);
     }
 
     [Fact]
@@ -108,9 +115,13 @@ public class RepoUsuarioTest : TestBase
             Email = "FranciscoGarcia@gmail.com",
             Password = "314159265358979"
         };
-
-
         await _repo.AltaAsync(usuariofran);
+
+        var usuarios = await _repo.ObtenerAsync();
+
+        Assert.NotEmpty(usuarios);
+        Assert.Contains(usuarios,
+            m => m.Nombre == "Francisco");
     }
 
     [Fact]
