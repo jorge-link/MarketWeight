@@ -1,4 +1,8 @@
 using System.Data;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using MySqlConnector;
 using MarketWeight.Ado.Dapper;
 using MarketWeight.Core;
@@ -7,25 +11,21 @@ using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// =================== CONFIG ====================
 builder.Services.AddSingleton<IDbConnection>(sp =>
     new MySqlConnection(
-        builder.Configuration.GetConnectionString("DefaultConnection"))
+        builder.Configuration["ConnectionStrings:DefaultConnection"]
+    )
 );
 
-// =================== REPOS =====================
 builder.Services.AddScoped<IRepoUsuario, RepoUsuario>();
 builder.Services.AddScoped<IRepoMoneda, RepoMoneda>();
 builder.Services.AddScoped<IRepoHistorial, RepoHistorial>();
 
-// =================== SWAGGER ===================
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-
-// =================== SWAGGER UI =================
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger(options =>
@@ -43,10 +43,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-
-// =================== ENDPOINTS ==================
-
-// ------------- USUARIOS -------------
 app.MapGet("/usuarios", async (IRepoUsuario repo) =>
 {
     var usuarios = await repo.ObtenerAsync();
@@ -65,8 +61,6 @@ app.MapPost("/usuarios", async (Usuario usuario, IRepoUsuario repo) =>
     return Results.Created($"/usuarios", usuario);
 });
 
-
-// ------------- MONEDAS -------------
 app.MapGet("/monedas", async (IRepoMoneda repo) =>
 {
     var monedas = await repo.ObtenerAsync();
@@ -85,8 +79,6 @@ app.MapPost("/monedas", async (Moneda moneda, IRepoMoneda repo) =>
     return Results.Created($"/monedas", moneda);
 });
 
-
-// ------------- HISTORIAL -------------
 app.MapGet("/historial", async (IRepoHistorial repo) =>
 {
     var historial = await repo.ObtenerAsync();
