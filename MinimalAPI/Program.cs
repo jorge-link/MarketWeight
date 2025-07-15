@@ -1,105 +1,107 @@
-using Microsoft.EntityFrameworkCore;
-using Scalar.AspNetCore;
+using System.Data;
+using MySqlConnector;
+using MarketWeight.Ado.Dapper;
 using MarketWeight.Core;
 using MarketWeight.Core.Persistencia;
+using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<MarketWeightDb>(options =>
-    options.UseMySql(
-        builder.Configuration.GetConnectionString("DefaultConnection"),
-        new MySqlServerVersion(new Version(8, 0, 32)) // Ajustá la versión según tu servidor
-    )
+// =================== CONFIG ====================
+builder.Services.AddSingleton<IDbConnection>(sp =>
+    new MySqlConnection(
+        builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 
-builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+// =================== REPOS =====================
+builder.Services.AddScoped<IRepoUsuario, RepoUsuario>();
+builder.Services.AddScoped<IRepoMoneda, RepoMoneda>();
+builder.Services.AddScoped<IRepoHistorial, RepoHistorial>();
+
+// =================== SWAGGER ===================
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+
+// =================== SWAGGER UI =================
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger(options =>
     {
         options.RouteTemplate = "/openapi/{documentName}.json";
     });
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/openapi/v1.json", "MarketWeight API V1");
+        c.RoutePrefix = "docs";
+    });
+
     app.MapScalarApiReference();
 }
 
 app.UseHttpsRedirection();
 
 
-// ====================== USUARIOS ======================
+// =================== ENDPOINTS ==================
 
-// GET: Listar todos
-app.MapGet("/usuarios", (MarketWeightDb db) =>
-    db.Usuarios.ToList());
-
-// GET: por email (campo único)
-app.MapGet("/usuarios/email/{email}", (string email, MarketWeightDb db) =>
+// ------------- USUARIOS -------------
+app.MapGet("/usuarios", async (IRepoUsuario repo) =>
 {
-    var usuario = db.Usuarios.FirstOrDefault(u => u.Email == email);
+    var usuarios = await repo.ObtenerAsync();
+    return Results.Ok(usuarios);
+});
+
+app.MapGet("/usuarios/{id}", async (uint id, IRepoUsuario repo) =>
+{
+    var usuario = await repo.DetalleAsync(id);
     return usuario is not null ? Results.Ok(usuario) : Results.NotFound();
 });
 
-// POST: crear
-app.MapPost("/usuarios", (Usuario usuario, MarketWeightDb db) =>
+app.MapPost("/usuarios", async (Usuario usuario, IRepoUsuario repo) =>
 {
-    db.Usuarios.Add(usuario);
-    db.SaveChanges();
+    await repo.AltaAsync(usuario);
     return Results.Created($"/usuarios", usuario);
 });
 
 
-// ====================== MONEDAS ======================
-
-// GET: Listar todas
-app.MapGet("/monedas", (MarketWeightDb db) =>
-    db.Monedas.ToList());
-
-// GET: por nombre (campo único)
-app.MapGet("/monedas/nombre/{nombre}", (string nombre, MarketWeightDb db) =>
+// ------------- MONEDAS -------------
+app.MapGet("/monedas", async (IRepoMoneda repo) =>
 {
-    var moneda = db.Monedas.FirstOrDefault(m => m.Nombre == nombre);
+    var monedas = await repo.ObtenerAsync();
+    return Results.Ok(monedas);
+});
+
+app.MapGet("/monedas/{id}", async (uint id, IRepoMoneda repo) =>
+{
+    var moneda = await repo.DetalleAsync(id);
     return moneda is not null ? Results.Ok(moneda) : Results.NotFound();
 });
 
-// POST: crear
-app.MapPost("/monedas", (Moneda moneda, MarketWeightDb db) =>
+app.MapPost("/monedas", async (Moneda moneda, IRepoMoneda repo) =>
 {
-    db.Monedas.Add(moneda);
-    db.SaveChanges();
+    await repo.AltaAsync(moneda);
     return Results.Created($"/monedas", moneda);
 });
 
 
-// ====================== HISTORIAL ======================
-
-// GET: Listar todo
-app.MapGet("/historial", (MarketWeightDb db) =>
-    db.Historiales.ToList());
-
-// GET: por IdUsuario
-app.MapGet("/historial/usuario/{idUsuario}", (uint idUsuario, MarketWeightDb db) =>
+// ------------- HISTORIAL -------------
+app.MapGet("/historial", async (IRepoHistorial repo) =>
 {
-    var lista = db.Historiales.Where(h => h.IdUsuario == idUsuario).ToList();
-    return Results.Ok(lista);
+    var historial = await repo.ObtenerAsync();
+    return Results.Ok(historial);
 });
 
-// GET: por idMoneda
-app.MapGet("/historial/moneda/{idMoneda}", (uint idMoneda, MarketWeightDb db) =>
+app.MapGet("/historial/{id}", async (uint id, IRepoHistorial repo) =>
 {
-    var lista = db.Historiales.Where(h => h.idMoneda == idMoneda).ToList();
-    return Results.Ok(lista);
+    var detalle = await repo.DetalleAsync(id);
+    return detalle is not null ? Results.Ok(detalle) : Results.NotFound();
 });
 
-// POST: crear
-app.MapPost("/historial", (Historial historial, MarketWeightDb db) =>
+app.MapPost("/historial", async (Historial historial, IRepoHistorial repo) =>
 {
-    historial.FechaHora = DateTime.UtcNow;
-    db.Historiales.Add(historial);
-    db.SaveChanges();
+    await repo.AltaAsync(historial);
     return Results.Created($"/historial", historial);
 });
 
