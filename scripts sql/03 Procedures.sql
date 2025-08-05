@@ -9,10 +9,10 @@ BEGIN
 END $$
 
 DROP PROCEDURE IF EXISTS AltaUsuario $$
-CREATE PROCEDURE `AltaUsuario`(xnombre VARCHAR(45), xapellido  VARCHAR(45), xemail  VARCHAR(45), xpass CHAR(64) )
+CREATE PROCEDURE `AltaUsuario`(xnombre VARCHAR(45), xapellido  VARCHAR(45), xemail  VARCHAR(45), xpass CHAR(64), xsaldo DECIMAL(20,10))
 BEGIN
        INSERT INTO `Usuario` (nombre, apellido, email, pass, saldo)
-           VALUES(xnombre, xapellido, xemail, xpass, 0.0);
+           VALUES(xnombre, xapellido, xemail, xpass, xsaldo);
 END $$
 
 DROP PROCEDURE IF EXISTS ComprarMoneda $$

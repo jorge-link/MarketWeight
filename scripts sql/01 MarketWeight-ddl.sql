@@ -12,7 +12,7 @@ DROP SCHEMA IF EXISTS `5to_MarketWeight` ;
 -- -----------------------------------------------------
 -- Schema 5to_MarketWeight
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `5to_MarketWeight` ;
+CREATE SCHEMA IF NOT EXISTS `5to_MarketWeight` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE `5to_MarketWeight` ;
 
 -- -----------------------------------------------------
@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `Usuario` (
   `saldo` DECIMAL(20,10) NOT NULL,
   PRIMARY KEY (`idUsuario`),
   UNIQUE INDEX `idUsuario_UNIQUE` (`idUsuario` ASC) VISIBLE)
-ENGINE = InnoDB;
+ENGINE = InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
 -- -----------------------------------------------------
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `Moneda` (
   `nombre` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`idMoneda`),
   UNIQUE INDEX `idMoneda_UNIQUE` (`idMoneda` ASC) VISIBLE)
-ENGINE = InnoDB;
+ENGINE = InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
 -- -----------------------------------------------------
@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS `UsuarioMoneda` (
     REFERENCES `Usuario` (`idUsuario`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+ENGINE = InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
 -- -----------------------------------------------------
@@ -90,11 +90,13 @@ CREATE TABLE IF NOT EXISTS `Historial` (
     REFERENCES `Usuario` (`idUsuario`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+ENGINE = InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 USE `5to_MarketWeight`;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+
 

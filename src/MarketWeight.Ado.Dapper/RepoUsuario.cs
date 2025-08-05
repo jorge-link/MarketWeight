@@ -21,6 +21,7 @@ public class RepoUsuario : RepoGenerico, IRepoUsuario
         parametros.Add("@xapellido", usuario.Apellido);
         parametros.Add("@xemail", usuario.Email);
         parametros.Add("@xpass", usuario.Password);
+        parametros.Add("@xsaldo", usuario.Saldo);
         try
         {
             Conexion.Execute("AltaUsuario", parametros);
@@ -44,6 +45,7 @@ public class RepoUsuario : RepoGenerico, IRepoUsuario
         parametros.Add("@xapellido", usuario.Apellido);
         parametros.Add("@xemail", usuario.Email);
         parametros.Add("@xpass", usuario.Password);
+        parametros.Add("@xsaldo", usuario.Saldo);
         try
         {
             await Conexion.ExecuteAsync("AltaUsuario", parametros);

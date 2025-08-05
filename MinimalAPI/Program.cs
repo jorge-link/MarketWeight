@@ -46,14 +46,39 @@ app.UseHttpsRedirection();
 app.MapGet("/usuarios", async (IRepoUsuario repo) =>
 {
     var usuarios = await repo.ObtenerAsync();
-    return Results.Ok(usuarios);
+
+    var usuariosDto = usuarios.Select(u => new UsuarioDTO
+    {
+        IdUsuario = u.IdUsuario,
+        Nombre = u.Nombre,
+        Apellido = u.Apellido,
+        Email = u.Email,
+        Saldo = u.Saldo
+    });
+
+    return Results.Ok(usuariosDto);
 });
+
 
 app.MapGet("/usuarios/{id}", async (uint id, IRepoUsuario repo) =>
 {
     var usuario = await repo.DetalleAsync(id);
-    return usuario is not null ? Results.Ok(usuario) : Results.NotFound();
+    
+    if (usuario is null)
+        return Results.NotFound();
+
+    var dto = new UsuarioDTO
+    {
+        IdUsuario = usuario.IdUsuario,
+        Nombre = usuario.Nombre,
+        Apellido = usuario.Apellido,
+        Email = usuario.Email,
+        Saldo = usuario.Saldo
+    };
+
+    return Results.Ok(dto);
 });
+
 
 app.MapPost("/usuarios", async (Usuario usuario, IRepoUsuario repo) =>
 {
