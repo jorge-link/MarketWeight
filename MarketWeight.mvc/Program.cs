@@ -1,27 +1,37 @@
+using MarketWeight.Core.Persistencia;
+using MarketWeight.Ado.Dapper;
+using System.Data;
+using MySql.Data.MySqlClient; // si usas MySQL
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Agregar servicios MVC
 builder.Services.AddControllersWithViews();
+
+// Registrar la conexión a la base de datos
+builder.Services.AddTransient<IDbConnection>(sp =>
+    new MySqlConnection(builder.Configuration.GetConnectionString("DefaultConnection"))
+);
+
+// Registrar el repositorio
+builder.Services.AddScoped<IRepoUsuario, RepoUsuario>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Configuración del middleware
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
 }
 
-app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
-
 app.UseAuthorization();
 
+// Ruta por defecto
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/{id?}"
+);
 
 app.Run();

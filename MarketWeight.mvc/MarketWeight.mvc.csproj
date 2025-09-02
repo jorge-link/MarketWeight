@@ -1,9 +1,17 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
-
+  <ItemGroup>
+    <ProjectReference Include="..\src\MarketWeight.Core\MarketWeight.Core.csproj" />
+    <ProjectReference Include="..\src\MarketWeight.Ado.Dapper\MarketWeight.Ado.Dapper.csproj" />
+    <ProjectReference Include="..\src\MarketWeight.Ado.Dapper.Test\MarketWeight.Ado.Dapper.Test.csproj" />
+    <ProjectReference Include="..\MinimalAPI\MinimalAPI.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.3.0" />
+    <PackageReference Include="MySql.Data" Version="9.4.0" />
+  </ItemGroup>
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
-
 </Project>

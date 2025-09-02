@@ -1,0 +1,27 @@
+@model IEnumerable<MarketWeight.Core.UsuarioDTO>
+
+<h2>Listado de Usuarios</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Email</th>
+            <th>Saldo</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var usuario in Model)
+        {
+            <tr>
+                <td>@usuario.IdUsuario</td>
+                <td>@usuario.Nombre</td>
+                <td>@usuario.Apellido</td>
+                <td>@usuario.Email</td>
+                <td>@usuario.Saldo.ToString("C")</td>
+            </tr>
+        }
+    </tbody>
+</table>
