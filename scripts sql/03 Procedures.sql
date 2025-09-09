@@ -8,6 +8,7 @@ BEGIN
            VALUES(xprecio, xcantidad, xnombre);
 END $$
 
+
 DROP PROCEDURE IF EXISTS AltaUsuario $$
 CREATE PROCEDURE `AltaUsuario`(xnombre VARCHAR(45), xapellido  VARCHAR(45), xemail  VARCHAR(45), xpass CHAR(64), xsaldo DECIMAL(20,10))
 BEGIN

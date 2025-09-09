@@ -23,6 +23,18 @@ public class HomeController : Controller
         return View();
     }
 
+    [HttpGet]
+    public IActionResult Login()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    public IActionResult Login(uint IdUsuario)
+    {
+        return RedirectToAction("ComprarMoneda", "Compra", new { IdUsuario });
+    }
+
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
