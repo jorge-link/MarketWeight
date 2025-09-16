@@ -1,0 +1,15 @@
+@model dynamic
+
+@{
+    ViewData["Title"] = "Resumen de Compra";
+}
+
+<h2>Resumen de Compra</h2>
+
+<p><strong>Usuario:</strong> @Model.Usuario</p>
+<p><strong>Moneda:</strong> @Model.Moneda</p>
+<p><strong>Cantidad:</strong> @Model.Cantidad</p>
+<p><strong>Precio Unitario:</strong> @Model.PrecioUnitario</p>
+<p><strong>Total:</strong> @Model.Total</p>
+
+<a asp-action="ComprarMoneda" class="btn btn-secondary mt-3">Realizar otra compra</a>

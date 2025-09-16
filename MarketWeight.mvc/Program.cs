@@ -1,37 +1,38 @@
+using MySql.Data.MySqlClient;
+using System.Data;
 using MarketWeight.Core.Persistencia;
 using MarketWeight.Ado.Dapper;
-using System.Data;
-using MySql.Data.MySqlClient; // si usas MySQL
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Agregar servicios MVC
-builder.Services.AddControllersWithViews();
+// 🔹 Configuración de cadena de conexión
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-// Registrar la conexión a la base de datos
-builder.Services.AddTransient<IDbConnection>(sp =>
-    new MySqlConnection(builder.Configuration.GetConnectionString("DefaultConnection"))
-);
+// 🔹 Registrar IDbConnection
+builder.Services.AddScoped<IDbConnection>(sp => new MySqlConnection(connectionString));
 
-// Registrar el repositorio
+// 🔹 Repositorios
 builder.Services.AddScoped<IRepoUsuario, RepoUsuario>();
+builder.Services.AddScoped<IRepoMoneda, RepoMoneda>();
+
+// 🔹 MVC
+builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
-// Configuración del middleware
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
+    app.UseHsts();
 }
 
+app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthorization();
 
-// Ruta por defecto
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}"
-);
+    pattern: "{controller=Compra}/{action=ComprarMoneda}/{id?}");
 
 app.Run();

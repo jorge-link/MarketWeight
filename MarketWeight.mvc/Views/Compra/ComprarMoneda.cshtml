@@ -7,17 +7,37 @@
 <h2>Comprar Moneda</h2>
 
 <form asp-action="ComprarMoneda" asp-controller="Compra" method="post">
+    <!-- Ingresar ID de usuario -->
     <div class="form-group">
-        <label for="IdMoneda">Selecciona una moneda</label>
-        <select asp-for="IdMoneda" asp-items="Model.ListaMoneda" class="form-control"></select>
+        <label for="IdUsuario">ID Usuario</label>
+        <input type="number" name="IdUsuario" class="form-control" min="1" required placeholder="Ingresa tu ID" />
     </div>
 
+    <!-- Seleccionar moneda -->
+    <div class="form-group mt-3">
+        <label for="IdMoneda">Selecciona una moneda</label>
+        <select asp-for="IdMoneda" asp-items="Model.ListaMoneda" class="form-control" required>
+            <option value="">-- Elige una moneda --</option>
+        </select>
+    </div>
+
+    <!-- Ingresar cantidad -->
     <div class="form-group mt-3">
         <label for="Cantidad">Cantidad</label>
-        <input type="number" step="0.00000001" name="Cantidad" class="form-control" required />
+        <input type="number" name="Cantidad" class="form-control" step="0.00000001" min="0.00000001" required placeholder="Cantidad a comprar" />
     </div>
-
-    <input type="hidden" name="IdUsuario" value="@ViewBag.IdUsuario" />
 
     <button type="submit" class="btn btn-primary mt-3">Comprar</button>
 </form>
+
+@if(ViewData.ModelState.ErrorCount > 0)
+{
+    <div class="alert alert-danger mt-3">
+        <ul>
+            @foreach(var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <li>@error.ErrorMessage</li>
+            }
+        </ul>
+    </div>
+}

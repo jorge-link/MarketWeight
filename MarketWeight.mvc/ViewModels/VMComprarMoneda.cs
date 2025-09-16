@@ -1,11 +1,6 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using MarketWeight.Core;
-using MarketWeight.Core.Persistencia;
-using MarketWeight.Ado.Dapper;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using MarketWeight.Core;
 
 namespace MarketWeight.mvc.ViewModels
 {
@@ -13,13 +8,16 @@ namespace MarketWeight.mvc.ViewModels
     {
         public uint IdMoneda { get; set; }
 
-        public SelectList? ListaMoneda { get; set; }
-        private readonly IRepoUsuario _repo;
-        public VMComprarMoneda(uint IdUsuario, IEnumerable<Moneda> monedas)
+        public SelectList ListaMoneda { get; set; }
+
+        public IEnumerable<Moneda> Monedas { get; set; }
+
+        public VMComprarMoneda(IEnumerable<Moneda> monedas)
         {
+            Monedas = monedas;
             ListaMoneda = new SelectList(monedas,
-                                    dataTextField: nameof(Moneda.Nombre),
-                                    dataValueField: nameof(Moneda.IdMoneda));
+                                        dataTextField: nameof(Moneda.Nombre),
+                                        dataValueField: nameof(Moneda.IdMoneda));
         }
     }
 }
