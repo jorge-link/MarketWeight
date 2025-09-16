@@ -197,7 +197,7 @@ public class RepoUsuario : RepoGenerico, IRepoUsuario
     }
     public async Task<IEnumerable<Usuario>> ObtenerPorCondicionAsync(string condicion)
     {
-        var consulta = $"SELECT U.nombre, U.saldo FROM Usuario U WHERE {condicion}";
+        var consulta = $"SELECT U.idUsuario, U.nombre FROM Usuario U WHERE {condicion}";
         var usuarios = await Conexion.QueryAsync<Usuario>(consulta);
         return usuarios;
     }
