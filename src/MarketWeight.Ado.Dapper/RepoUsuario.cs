@@ -3,6 +3,8 @@ using MarketWeight.Core;
 using MarketWeight.Core.Persistencia;
 using Dapper;
 using System.Data.Common;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace MarketWeight.Ado.Dapper;
 
@@ -292,24 +294,25 @@ public class RepoUsuario : RepoGenerico, IRepoUsuario
             return usuario;
         }
     }
-    
+
     public async Task<Usuario?> DetalleCompletoAsync(uint idUsuario)
-{
-    using (var multi = await Conexion.QueryMultipleAsync(_queryDetalle, new { xidUsuario = idUsuario }))
     {
-        var usuario = await multi.ReadSingleOrDefaultAsync<Usuario>();
-
-        if (usuario is not null)
+        using (var multi = await Conexion.QueryMultipleAsync(_queryDetalle, new { xidUsuario = idUsuario }))
         {
-            var billetera = await multi.ReadAsync<UsuarioMoneda>();
-            var transacciones = await multi.ReadAsync<Historial>();
+            var usuario = await multi.ReadSingleOrDefaultAsync<Usuario>();
 
-            usuario.Billetera = billetera.ToList();
-            usuario.Transacciones = transacciones.ToList();
+            if (usuario is not null)
+            {
+                var billetera = await multi.ReadAsync<UsuarioMoneda>();
+                var transacciones = await multi.ReadAsync<Historial>();
+
+                usuario.Billetera = billetera.ToList();
+                usuario.Transacciones = transacciones.ToList();
+            }
+
+            return usuario;
         }
-
-        return usuario;
     }
-}
+
 
 }

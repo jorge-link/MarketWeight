@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MarketWeight.Core.Persistencia;
 using MarketWeight.mvc.ViewModels;
+using MarketWeight.mvc.Helpers;                                                                                                                                                                                                                                      
 
 namespace MarketWeight.mvc.Controllers
 {
@@ -24,28 +25,27 @@ namespace MarketWeight.mvc.Controllers
         [HttpPost]
         public async Task<IActionResult> Index(string email, string password)
         {
-            if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password))
-            {
-                ViewBag.Error = "Debe ingresar correo y contraseña";
+            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
                 return View();
-            }
 
-            // Usamos ObtenerPorCondicionAsync para filtrar
-            var usuarios = await _repoUsuario.ObtenerPorCondicionAsync($"email = '{email}' AND pass = '{password}'");
+            string hashedPassword = PasswordHelper.HashPassword(password);
+
+            var usuarios = await _repoUsuario.ObtenerPorCondicionAsync(
+                $"email = '{email}' AND pass = '{hashedPassword}'"
+            );
+
             var usuario = usuarios.FirstOrDefault();
-
             if (usuario == null)
             {
-                ViewBag.Error = "Correo o contraseña incorrectos";
+                ViewBag.Error = "Email o contraseña incorrecta";
                 return View();
             }
 
-            // Guardamos IdUsuario en sesión
             HttpContext.Session.SetInt32("IdUsuario", (int)usuario.IdUsuario);
-
-            // Redirigimos a Home/Index o a la página principal
             return RedirectToAction("Index", "Home");
         }
+
+
 
         [HttpPost]
         public IActionResult Logout()
