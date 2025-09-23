@@ -1,7 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
 using MarketWeight.Core.Persistencia;
 using MarketWeight.mvc.ViewModels;
-using MarketWeight.mvc.Helpers;                                                                                                                                                                                                                                      
+using MarketWeight.mvc.Helpers;
+using MarketWeight.Core;
+using System.Data;
+
+
 
 namespace MarketWeight.mvc.Controllers
 {
@@ -53,5 +57,48 @@ namespace MarketWeight.mvc.Controllers
             HttpContext.Session.Remove("IdUsuario");
             return RedirectToAction("Index", "Home");
         }
+
+        [HttpGet]
+        public IActionResult Registro()
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Registro(VMRegistroUsuario model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            // Crear usuario
+            var nuevoUsuario = new Usuario
+            {
+                Nombre = model.Nombre,
+                Apellido = model.Apellido,
+                Email = model.Email,
+                Password = model.Password, // recordá cifrar si querés
+                Saldo = 0
+            };
+
+            try
+            {
+                await _repoUsuario.AltaAsync(nuevoUsuario);
+            }
+            catch (ConstraintException ex)
+            {
+                ModelState.AddModelError(string.Empty, ex.Message);
+                return View(model);
+            }
+            catch (Exception)
+            {
+                ModelState.AddModelError(string.Empty, "Ocurrió un error al registrar el usuario.");
+                return View(model);
+            }
+
+            // Redirigir al login
+            return RedirectToAction("Index");
+        }
+    
     }
 }

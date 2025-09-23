@@ -27,21 +27,23 @@ namespace MarketWeight.mvc.Controllers
 
         // Procesar compra
         [HttpPost]
-        public async Task<IActionResult> ComprarMoneda(uint IdUsuario, uint IdMoneda, string Cantidad)
+        public async Task<IActionResult> ComprarMonedaPost(uint IdMoneda, string Cantidad)
         {
             // Reemplazar coma por punto
             Cantidad = Cantidad.Replace(',', '.');
             var cantidadDecimal = decimal.Parse(Cantidad, System.Globalization.CultureInfo.InvariantCulture);
+            int? idUsuario = HttpContext.Session.GetInt32("IdUsuario");
 
-            var usuario = await _repoUsuario.DetalleAsync(IdUsuario);
-            if (usuario == null)
-                return NotFound($"No se encontró el usuario con ID {IdUsuario}");
+            if (idUsuario == null)
+                return NotFound($"No se Inicio Sesion! ERROR!{idUsuario}");
 
+            var usuario = await _repoUsuario.DetalleAsync(Convert.ToUInt16(idUsuario));
+            
             var moneda = await _repoMoneda.DetalleAsync(IdMoneda);
             if (moneda == null)
                 return NotFound($"No se encontró la moneda con ID {IdMoneda}");
 
-            await _repoUsuario.CompraAsync(IdUsuario, cantidadDecimal, IdMoneda);
+            await _repoUsuario.CompraAsync(Convert.ToUInt16(idUsuario), cantidadDecimal, IdMoneda);
 
             var resumen = new
             {

@@ -1,0 +1,119 @@
+@model VMRegistroUsuario
+@{
+    ViewData["Title"] = "Registro";
+}
+
+<div class="login-container">
+    <form asp-action="Registro" method="post" class="login-form">
+        <h2>Registro de Usuario</h2>
+
+        <div class="form-group">
+            <input asp-for="Nombre" placeholder="Nombre" class="form-control" />
+            <span asp-validation-for="Nombre" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <input asp-for="Apellido" placeholder="Apellido" class="form-control" />
+            <span asp-validation-for="Apellido" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <input asp-for="Email" placeholder="Correo electrónico" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <input asp-for="Password" placeholder="Contraseña" class="form-control" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <input asp-for="ConfirmarPassword" placeholder="Confirmar contraseña" class="form-control" />
+            <span asp-validation-for="ConfirmarPassword" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">Registrarse</button>
+
+        @if(!ViewData.ModelState.IsValid)
+        {
+            <div class="text-danger mt-2">
+                Corrige los errores en el formulario.
+            </div>
+        }
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-container {
+    background: rgba(255,255,255,0.95);
+    padding: 40px 30px;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.login-form h2 {
+    margin-bottom: 20px;
+    color: #764ba2;
+}
+
+.login-form .form-control {
+    width: 100%;
+    padding: 12px 15px;
+    margin: 10px 0;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+}
+
+.login-form button {
+    width: 100%;
+    padding: 12px;
+    border-radius: 50px;
+    border: none;
+    background: #667eea;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-top: 10px;
+    transition: all 0.3s ease;
+}
+
+.login-form button:hover {
+    background: #5a67d8;
+}
+
+.text-danger {
+    font-size: 0.85rem;
+}
+
+
+@@media (max-width: 480px) {
+    .login-container {
+        padding: 30px 20px;
+    }
+
+    .login-form .form-control,
+    .login-form button {
+        font-size: 0.9rem;
+        padding: 10px;
+    }
+}
+</style>

@@ -57,7 +57,7 @@ public class RepoUsuario : RepoGenerico, IRepoUsuario
             //DuplicateKeyEntry   
             if (e.ErrorCode == 1062)
             {
-                throw new ConstraintException($"El Usuario {usuario.Nombre} ya ha sido ingresada.");
+                throw new ConstraintException($"El Usuario {usuario.Email} ya ha sido ingresada.");
             }
             throw;
         }

@@ -4,39 +4,123 @@
     ViewData["Title"] = "Comprar Moneda";
 }
 
-<h2>Comprar Moneda</h2>
+<div class="home-container">
+    <div class="home-card">
+        <h1>Comprar <span class="brand">Moneda</span></h1>
+        <p>Selecciona la moneda y la cantidad que deseas comprar</p>
 
-<form asp-action="ComprarMoneda" asp-controller="Compra" method="post">
-    <!-- Ingresar ID de usuario -->
-    <div class="form-group">
-        <label for="IdUsuario">ID Usuario</label>
-        <input type="number" name="IdUsuario" class="form-control" min="1" required placeholder="Ingresa tu ID" />
+        <form asp-action="ComprarMonedaPost" asp-controller="Compra" method="post">
+
+            <div class="form-group mt-3">
+                <label for="IdMoneda">Selecciona una moneda</label>
+                <select asp-for="IdMoneda" asp-items="Model.ListaMoneda" class="form-control" required>
+                    <option value="">-- Elige una moneda --</option>
+                </select>
+            </div>
+
+            <div class="form-group mt-3">
+                <label for="Cantidad">Cantidad</label>
+                <input type="number" name="Cantidad" class="form-control" step="0.00000001" min="0.00000001" required placeholder="Cantidad a comprar" />
+            </div>
+
+            <button type="submit" class="btn btn-primary mt-3">Comprar</button>
+        </form>
+
+        @if(ViewData.ModelState.ErrorCount > 0)
+        {
+            <div class="alert alert-danger mt-3">
+                <ul>
+                    @foreach(var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                    {
+                        <li>@error.ErrorMessage</li>
+                    }
+                </ul>
+            </div>
+        }
     </div>
+</div>
 
-    <!-- Seleccionar moneda -->
-    <div class="form-group mt-3">
-        <label for="IdMoneda">Selecciona una moneda</label>
-        <select asp-for="IdMoneda" asp-items="Model.ListaMoneda" class="form-control" required>
-            <option value="">-- Elige una moneda --</option>
-        </select>
-    </div>
+<style>
+    body {
+        margin: 0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
-    <div class="form-group mt-3">
-        <label for="Cantidad">Cantidad</label>
-        <input type="number" name="Cantidad" class="form-control" step="0.00000001" min="0.00000001" required placeholder="Cantidad a comprar" />
-    </div>
+    .home-container {
+        text-align: center;
+        width: 100%;
+    }
 
-    <button type="submit" class="btn btn-primary mt-3">Comprar</button>
-</form>
+    .home-card {
+        background: rgba(255, 255, 255, 0.95);
+        padding: 50px 40px;
+        border-radius: 20px;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        max-width: 500px;
+        margin: auto;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
 
-@if(ViewData.ModelState.ErrorCount > 0)
-{
-    <div class="alert alert-danger mt-3">
-        <ul>
-            @foreach(var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
-            {
-                <li>@error.ErrorMessage</li>
-            }
-        </ul>
-    </div>
-}
+    .home-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+    }
+
+    .home-card h1 {
+        font-size: 2rem;
+        margin-bottom: 15px;
+    }
+
+    .brand {
+        color: #764ba2;
+        font-weight: bold;
+    }
+
+    .home-card p {
+        color: #555;
+        margin-bottom: 30px;
+        font-size: 1rem;
+    }
+
+    .btn {
+        display: inline-block;
+        margin: 10px 15px;
+        padding: 12px 30px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 1rem;
+        color: #fff;
+        background: #667eea;
+        transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
+    }
+
+    .btn:hover {
+        background: #5a67d8;
+        transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+        background: #764ba2;
+    }
+
+    .btn-secondary:hover {
+        background: #5a3e9e;
+    }
+
+    .form-control {
+        border-radius: 10px;
+        padding: 10px;
+    }
+
+    .alert {
+        text-align: left;
+    }
+</style>

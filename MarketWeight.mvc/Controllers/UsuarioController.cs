@@ -25,6 +25,10 @@ public class UsuarioController : Controller
             Saldo = u.Saldo
         });
 
+        // Obtenemos el usuario logueado
+        int? idUsuarioSesion = HttpContext.Session.GetInt32("IdUsuario");
+        ViewBag.UsuarioLogueado = idUsuarioSesion;
+
         return View(usuariosDTO);
     }
 }
