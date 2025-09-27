@@ -8,6 +8,8 @@ using MySql.Data.MySqlClient;
 
 
 
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
@@ -19,6 +21,7 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
+
 
 builder.Services.AddHttpContextAccessor();
 
@@ -32,6 +35,11 @@ builder.Services.AddTransient<IDbConnection>(sp =>
 
 builder.Services.AddScoped<IRepoUsuario, RepoUsuario>();
 builder.Services.AddScoped<IRepoMoneda, RepoMoneda>();
+
+builder.Services.AddControllersWithViews(options =>
+{
+    options.Filters.Add<CargarSaldoFilter>();
+});
 
 var app = builder.Build();
 

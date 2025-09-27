@@ -38,7 +38,6 @@ namespace MarketWeight.mvc.Controllers
                 return NotFound($"No se Inicio Sesion! ERROR!{idUsuario}");
 
             var usuario = await _repoUsuario.DetalleAsync(Convert.ToUInt16(idUsuario));
-            
             var moneda = await _repoMoneda.DetalleAsync(IdMoneda);
             if (moneda == null)
                 return NotFound($"No se encontró la moneda con ID {IdMoneda}");
@@ -51,10 +50,12 @@ namespace MarketWeight.mvc.Controllers
                 Moneda = moneda.Nombre,
                 Cantidad = cantidadDecimal,
                 PrecioUnitario = moneda.Precio,
-                Total = cantidadDecimal * moneda.Precio
+                Total = cantidadDecimal * moneda.Precio,
+                Img = moneda.Url
             };
 
             return View("ResumenCompra", resumen);
         }
+
     }
 }

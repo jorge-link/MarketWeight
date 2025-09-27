@@ -12,6 +12,8 @@ namespace MarketWeight.mvc.ViewModels
 
         public IEnumerable<Moneda> Monedas { get; set; }
 
+        public string? ImagenSeleccionada { get; set; }
+
         public VMComprarMoneda(IEnumerable<Moneda> monedas)
         {
             Monedas = monedas;

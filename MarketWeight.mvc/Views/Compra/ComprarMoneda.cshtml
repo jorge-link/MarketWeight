@@ -13,9 +13,19 @@
 
             <div class="form-group mt-3">
                 <label for="IdMoneda">Selecciona una moneda</label>
-                <select asp-for="IdMoneda" asp-items="Model.ListaMoneda" class="form-control" required>
+                <select asp-for="IdMoneda" class="form-control" required id="monedaSelect">
                     <option value="">-- Elige una moneda --</option>
+                    @foreach (var m in Model.Monedas)
+                    {
+                        <option value="@m.IdMoneda" data-img="@m.Url">@m.Nombre</option>
+                    }
                 </select>
+
+            </div>
+
+            <!-- Aquí se mostrará la imagen -->
+            <div class="form-group mt-3" id="monedaImagenContainer" style="display:none;">
+                <img id="monedaImagen" src="" alt="Imagen de la moneda" style="max-height:100px;" />
             </div>
 
             <div class="form-group mt-3">
@@ -40,87 +50,18 @@
     </div>
 </div>
 
-<style>
-    body {
-        margin: 0;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background: linear-gradient(135deg, #667eea, #764ba2);
-        height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+<script>
+    document.getElementById("monedaSelect").addEventListener("change", function() {
+        const selected = this.options[this.selectedIndex];
+        const imgUrl = selected.getAttribute("data-img");
+        const imgContainer = document.getElementById("monedaImagenContainer");
+        const imgTag = document.getElementById("monedaImagen");
 
-    .home-container {
-        text-align: center;
-        width: 100%;
-    }
-
-    .home-card {
-        background: rgba(255, 255, 255, 0.95);
-        padding: 50px 40px;
-        border-radius: 20px;
-        box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-        max-width: 500px;
-        margin: auto;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .home-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 25px 50px rgba(0,0,0,0.3);
-    }
-
-    .home-card h1 {
-        font-size: 2rem;
-        margin-bottom: 15px;
-    }
-
-    .brand {
-        color: #764ba2;
-        font-weight: bold;
-    }
-
-    .home-card p {
-        color: #555;
-        margin-bottom: 30px;
-        font-size: 1rem;
-    }
-
-    .btn {
-        display: inline-block;
-        margin: 10px 15px;
-        padding: 12px 30px;
-        border-radius: 50px;
-        text-decoration: none;
-        font-weight: bold;
-        font-size: 1rem;
-        color: #fff;
-        background: #667eea;
-        transition: all 0.3s ease;
-        border: none;
-        cursor: pointer;
-    }
-
-    .btn:hover {
-        background: #5a67d8;
-        transform: translateY(-2px);
-    }
-
-    .btn-secondary {
-        background: #764ba2;
-    }
-
-    .btn-secondary:hover {
-        background: #5a3e9e;
-    }
-
-    .form-control {
-        border-radius: 10px;
-        padding: 10px;
-    }
-
-    .alert {
-        text-align: left;
-    }
-</style>
+        if (imgUrl) {
+            imgTag.src = imgUrl;
+            imgContainer.style.display = "block";
+        } else {
+            imgContainer.style.display = "none";
+        }
+    });
+</script>
