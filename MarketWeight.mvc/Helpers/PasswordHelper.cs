@@ -13,7 +13,7 @@ namespace MarketWeight.mvc.Helpers
                 StringBuilder builder = new StringBuilder();
                 foreach (var b in bytes)
                 {
-                    builder.Append(b.ToString("x2")); // convierte a hex
+                    builder.Append(b.ToString("x2"));
                 }
                 return builder.ToString();
             }

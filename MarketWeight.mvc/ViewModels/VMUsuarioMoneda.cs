@@ -8,7 +8,7 @@ namespace MarketWeight.mvc.ViewModels
     {
         public uint IdMoneda { get; set; }
         public string Nombre { get; set; }
-        public string Url { get; set; }
+        public string? Url { get; set; }
         public decimal Cantidad { get; set; }
     }
 }

@@ -4,7 +4,7 @@ using MarketWeight.mvc.ViewModels;
 using System.Threading.Tasks;
 
 namespace MarketWeight.mvc.Controllers
-{
+{ 
     [ServiceFilter(typeof(CargarSaldoFilter))]
     public class CompraController : Controller
     {
@@ -30,7 +30,6 @@ namespace MarketWeight.mvc.Controllers
         [HttpPost]
         public async Task<IActionResult> ComprarMonedaPost(uint IdMoneda, string Cantidad)
         {
-            // Reemplazar coma por punto
             Cantidad = Cantidad.Replace(',', '.');
             var cantidadDecimal = decimal.Parse(Cantidad, System.Globalization.CultureInfo.InvariantCulture);
             int? idUsuario = HttpContext.Session.GetInt32("IdUsuario");
