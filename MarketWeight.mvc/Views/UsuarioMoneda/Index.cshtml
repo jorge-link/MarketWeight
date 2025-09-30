@@ -1,0 +1,52 @@
+@model List<MarketWeight.mvc.ViewModels.VMUsuarioMoneda>
+
+@{
+    ViewData["Title"] = "Mis Monedas";
+}
+
+<div class="home-container">
+    <div class="home-card">
+        <h1>Mis <span class="brand">Monedas</span></h1>
+        <p>Aquí puedes ver las monedas que posees actualmente.</p>
+
+        @if (Model == null || !Model.Any())
+        {
+            <div class="alert alert-info mt-3">
+                No tienes monedas todavía.
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive mt-3">
+                <table class="table table-striped table-bordered align-middle text-center">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Imagen</th>
+                            <th>Nombre</th>
+                            <th>Cantidad</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @if (!string.IsNullOrEmpty(item.Url))
+                                    {
+                                        <img src="@item.Url" alt="@item.Nombre" style="height:40px;" />
+                                    }
+                                    else
+                                    {
+                                        <span>-</span>
+                                    }
+                                </td>
+                                <td>@item.Nombre</td>
+                                <td>@item.Cantidad</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>

@@ -91,6 +91,13 @@ public class RepoUsuario : RepoGenerico, IRepoUsuario
         return usuariosMoneda;
     }
 
+    public async Task<IEnumerable<UsuarioMoneda>> ObtenerUsuarioMonedaCondicionAsync(uint idUsuario)
+    {
+        var consulta = $"SELECT * FROM UsuarioMoneda WHERE idUsuario = {idUsuario}";
+        var usuarioMoneda = await Conexion.QueryAsync<UsuarioMoneda>(consulta);
+        return usuarioMoneda;
+    }
+
     public Usuario? Detalle(uint indiceABuscar)
     {
         var consulta = $"SELECT * FROM Usuario WHERE idUsuario = {indiceABuscar}";
@@ -313,6 +320,5 @@ public class RepoUsuario : RepoGenerico, IRepoUsuario
             return usuario;
         }
     }
-
 
 }

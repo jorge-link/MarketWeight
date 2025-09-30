@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `Moneda` (
   `precio` DECIMAL(20,10) NOT NULL,
   `cantidad` DECIMAL(20,10) UNSIGNED NOT NULL,
   `nombre` VARCHAR(45) NOT NULL,
-  `urlimg` VARCHAR(1024) NULL,
+  `url` VARCHAR(1024) NULL,
   PRIMARY KEY (`idMoneda`),
   UNIQUE INDEX `idMoneda_UNIQUE` (`idMoneda` ASC) VISIBLE)
 ENGINE = InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;

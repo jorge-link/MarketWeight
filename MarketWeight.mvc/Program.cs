@@ -41,6 +41,9 @@ builder.Services.AddControllersWithViews(options =>
     options.Filters.Add<CargarSaldoFilter>();
 });
 
+builder.Services.AddScoped<CargarSaldoFilter>();
+
+
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())

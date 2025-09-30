@@ -6,40 +6,48 @@
 
 <div class="home-container">
     <div class="home-card">
-        <h1>Comprar <span class="brand">Moneda</span></h1>
-        <p>Selecciona la moneda y la cantidad que deseas comprar</p>
+        <h1 class="mb-3">Comprar <span class="brand">Moneda</span></h1>
+        <p class="text-muted">Selecciona la moneda y la cantidad que deseas comprar</p>
 
-        <form asp-action="ComprarMonedaPost" asp-controller="Compra" method="post">
+        <form asp-action="ComprarMonedaPost" asp-controller="Compra" method="post" class="mt-4">
 
-            <div class="form-group mt-3">
-                <label for="IdMoneda">Selecciona una moneda</label>
-                <select asp-for="IdMoneda" class="form-control" required id="monedaSelect">
+            <!-- Selección de moneda -->
+            <div class="mb-3">
+                <label for="IdMoneda" class="form-label fw-bold">Selecciona una moneda</label>
+                <select asp-for="IdMoneda" class="form-select rounded-pill shadow-sm" required id="monedaSelect">
                     <option value="">-- Elige una moneda --</option>
                     @foreach (var m in Model.Monedas)
                     {
                         <option value="@m.IdMoneda" data-img="@m.Url">@m.Nombre</option>
                     }
                 </select>
-
             </div>
 
-            <!-- Aquí se mostrará la imagen -->
-            <div class="form-group mt-3" id="monedaImagenContainer" style="display:none;">
-                <img id="monedaImagen" src="" alt="Imagen de la moneda" style="max-height:100px;" />
+            <!-- Imagen de la moneda -->
+            <div class="mb-3 text-center" id="monedaImagenContainer" style="display:none;">
+                <img id="monedaImagen" src="" alt="Imagen de la moneda" class="img-fluid rounded shadow-sm" style="max-height:120px;" />
             </div>
 
-            <div class="form-group mt-3">
-                <label for="Cantidad">Cantidad</label>
-                <input type="number" name="Cantidad" class="form-control" step="0.00000001" min="0.00000001" required placeholder="Cantidad a comprar" />
+            <!-- Cantidad -->
+            <div class="mb-3">
+                <label for="Cantidad" class="form-label fw-bold">Cantidad</label>
+                <input type="number" name="Cantidad" class="form-control rounded-pill shadow-sm"
+                       step="0.00000001" min="0.00000001" required placeholder="Cantidad a comprar" />
             </div>
 
-            <button type="submit" class="btn btn-primary mt-3">Comprar</button>
+            <!-- Botón -->
+            <div class="d-grid mt-4">
+                <button type="submit" class="btn btn-primary rounded-pill fw-bold shadow-sm">
+                    Comprar
+                </button>
+            </div>
         </form>
 
+        <!-- Errores -->
         @if(ViewData.ModelState.ErrorCount > 0)
         {
-            <div class="alert alert-danger mt-3">
-                <ul>
+            <div class="alert alert-danger mt-4">
+                <ul class="mb-0">
                     @foreach(var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
                     {
                         <li>@error.ErrorMessage</li>
@@ -51,7 +59,7 @@
 </div>
 
 <script>
-    document.getElementById("monedaSelect").addEventListener("change", function() {
+    document.getElementById("monedaSelect").addEventListener("change", function () {
         const selected = this.options[this.selectedIndex];
         const imgUrl = selected.getAttribute("data-img");
         const imgContainer = document.getElementById("monedaImagenContainer");

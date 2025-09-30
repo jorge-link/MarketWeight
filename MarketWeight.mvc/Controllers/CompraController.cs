@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 namespace MarketWeight.mvc.Controllers
 {
+    [ServiceFilter(typeof(CargarSaldoFilter))]
     public class CompraController : Controller
     {
         private readonly IRepoUsuario _repoUsuario;

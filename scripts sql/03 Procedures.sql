@@ -2,10 +2,10 @@ USE 5to_MarketWeight
 
 DELIMITER $$
 DROP PROCEDURE IF EXISTS AltaCriptoMoneda $$
-CREATE PROCEDURE `AltaCriptoMoneda`(xprecio DECIMAL(20,10), xcantidad DECIMAL(20,10), xnombre VARCHAR(45))
+CREATE PROCEDURE `AltaCriptoMoneda`(xprecio DECIMAL(20,10), xcantidad DECIMAL(20,10), xnombre VARCHAR(45), xurl VARCHAR(1024))
 BEGIN
-       INSERT INTO `Moneda` (precio, cantidad, nombre)
-           VALUES(xprecio, xcantidad, xnombre);
+       INSERT INTO `Moneda` (precio, cantidad, nombre, `url`)
+           VALUES(xprecio, xcantidad, xnombre, xurl);
 END $$
 
 

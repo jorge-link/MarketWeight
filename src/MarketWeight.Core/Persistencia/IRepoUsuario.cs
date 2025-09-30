@@ -23,6 +23,8 @@ public interface IRepoUsuario :
     IEnumerable<UsuarioMoneda> ObtenerUsuarioMoneda();
     Task<IEnumerable<UsuarioMoneda>> ObtenerUsuarioMonedaAsync();
 
+    Task<IEnumerable<UsuarioMoneda>> ObtenerUsuarioMonedaCondicionAsync(uint idUsuario);
+
     IEnumerable<UsuarioMoneda> ObtenerPorCondicionUsuarioMoneda(uint? userid, decimal? cantidad);
     Task<IEnumerable<UsuarioMoneda>> ObtenerPorCondicionUsuarioMonedaAsync(uint? userid, decimal? cantidad);
 

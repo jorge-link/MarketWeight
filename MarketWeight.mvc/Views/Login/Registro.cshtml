@@ -52,7 +52,7 @@ body {
     margin: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(135deg, #667eea, #764ba2);
-    min-height: 100vh;
+    height: 100vh; /* ocupar toda la pantalla */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -66,7 +66,9 @@ body {
     width: 90%;
     max-width: 400px;
     text-align: center;
+    margin: 0; /* 🔑 eliminar márgenes que desplacen */
 }
+
 
 .login-form h2 {
     margin-bottom: 20px;

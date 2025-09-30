@@ -1,9 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using MarketWeight.Core;
 using MarketWeight.Core.Persistencia;    
-using System.Linq;                         
-using System.Threading.Tasks;                
-
+using System.Linq;
+using System.Threading.Tasks;  
+              
+[ServiceFilter(typeof(CargarSaldoFilter))]
 public class UsuarioController : Controller
 {
     private readonly IRepoUsuario _repo;
