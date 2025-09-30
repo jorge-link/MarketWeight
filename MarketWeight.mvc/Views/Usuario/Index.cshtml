@@ -5,38 +5,40 @@
     int? idUsuarioSesion = HttpContextAccessor.HttpContext.Session.GetInt32("IdUsuario");
 }
 
-
-    <h2>Listado de Usuarios</h2>
-    <div class="table-container">
-
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Apellido</th>
-                    <th>Email</th>
-                    <th>Saldo</th>
+<h2>Listado de Usuarios</h2>
+<div class="table-container">
+    <table class="table table-striped usuarios-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Email</th>
+                <th>Saldo</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var usuario in Model)
+            {
+                var esUsuarioLogueado = usuario.IdUsuario == (uint?)idUsuarioSesion;
+                <tr class="@(esUsuarioLogueado ? "usuario-logueado" : "")">
+                    <td>@usuario.IdUsuario</td>
+                    <td>
+                        @usuario.Nombre
+                        @if(esUsuarioLogueado)
+                        {
+                            <span class="tu-label">(Tú)</span>
+                        }
+                    </td>
+                    <td>@usuario.Apellido</td>
+                    <td>@usuario.Email</td>
+                    <td>@usuario.Saldo.ToString("C")</td>
                 </tr>
-            </thead>
-            <tbody>
-                @foreach (var usuario in Model)
-                {
-                    var esUsuarioLogueado = usuario.IdUsuario == (uint?)idUsuarioSesion;
-                    <tr class="@(esUsuarioLogueado ? "usuario-logueado" : "")">
-                        <td>@usuario.IdUsuario</td>
-                        <td>
-                            @usuario.Nombre
-                            @if(esUsuarioLogueado)
-                            {
-                                <span class="tu-label">(Tú)</span>
-                            }
-                        </td>
-                        <td>@usuario.Apellido</td>
-                        <td>@usuario.Email</td>
-                        <td>@usuario.Saldo.ToString("C")</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/usuarios.css" />
+}

@@ -4,8 +4,10 @@ body {
     background: linear-gradient(135deg, #667eea, #764ba2);
     min-height: 100vh;
     padding-top: 70px;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
+
 
 .navbar-brand {
     font-weight: bold;
