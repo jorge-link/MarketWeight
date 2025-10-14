@@ -1,6 +1,7 @@
 ﻿@inject IHttpContextAccessor HttpContextAccessor
 @{
     int? idUsuario = HttpContextAccessor.HttpContext.Session.GetInt32("IdUsuario");
+    string? Email = HttpContextAccessor.HttpContext.Session.GetString("EmailUsuario");
     decimal saldo = ViewBag.Saldo != null ? (decimal)ViewBag.Saldo : 0;
 
     string currentController = ViewContext.RouteData.Values["controller"]?.ToString() ?? "";
@@ -54,6 +55,11 @@
                         <li class="nav-item">
                             <a href="/Usuario/Index" class="nav-link @(currentController=="Usuario"?"active":"")">Ver Usuarios</a>
                         </li>
+                        @if(Email == "admin@admin.com"){
+                            <li class="nav-item">
+                                <a href="/AltaMoneda/Index" class="nav-link @(currentController=="Usuario"?"active":"")">Crear Monedas</a>
+                            </li>
+                        }
                         <li class="nav-item">
                             <form method="post" action="/Login/Logout" class="inline-form">
                                 <button type="submit" class="btn secondary">Cerrar Sesión</button>

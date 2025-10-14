@@ -1,6 +1,11 @@
-namespace MarketWeight.Core
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace MarketWeight.mvc.ViewModels
 {
-    public class Moneda
+    public class VMAltaMoneda
     {
         public uint IdMoneda { get; set; }
         public required decimal Precio { get; set; }
@@ -9,4 +14,3 @@ namespace MarketWeight.Core
         public string? Url { get; set; } 
     }
 }
-

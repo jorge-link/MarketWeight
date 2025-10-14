@@ -11,6 +11,7 @@ CALL AltaCriptoMoneda(110.15, 100, 'Stellar', 'https://s2.coinmarketcap.com/stat
 CALL AltaCriptoMoneda(40.60, 100, 'Dogecoin', 'https://s2.coinmarketcap.com/static/img/coins/64x64/74.png');
 CALL AltaCriptoMoneda(70.85, 100, 'Tron', 'https://s2.coinmarketcap.com/static/img/coins/64x64/1958.png');
 
+CALL AltaUsuario('Admin', 'Pro', 'admin@admin.com', 'admin1234', 0);
 CALL AltaUsuario('Ana', 'García', 'ana.garcia@example.com', 'pass1234', 0);
 CALL AltaUsuario('Luis', 'Martínez', 'luis.martinez@example.com', '1234abcd', 0);
 CALL AltaUsuario('Marta', 'Fernández', 'marta.fernandez@example.com', 'abcd1234', 0);

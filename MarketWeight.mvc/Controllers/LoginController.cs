@@ -45,11 +45,19 @@ namespace MarketWeight.mvc.Controllers
                 return View();
             }
 
+            if (usuario.IdUsuario != 0)
             HttpContext.Session.SetInt32("IdUsuario", (int)usuario.IdUsuario);
+
+            if (usuario != null)
+            {
+                HttpContext.Session.SetString("EmailUsuario", email);
+            }
+            else
+                HttpContext.Session.Remove("EmailUsuario");
+
             return RedirectToAction("Index", "Home");
+
         }
-
-
 
         [HttpPost]
         public IActionResult Logout()

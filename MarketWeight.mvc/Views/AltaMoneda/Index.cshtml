@@ -1,0 +1,68 @@
+@inject IHttpContextAccessor HttpContextAccessor
+@model MarketWeight.mvc.ViewModels.VMAltaMoneda
+@{
+    ViewData["Title"] = "Alta de Moneda";
+    string? email = HttpContextAccessor.HttpContext.Session.GetString("EmailUsuario");
+}
+
+@if (email?.Trim().ToLower() != "admin@admin.com")
+{
+    <div class="not-allowed">
+        <h2>Acceso denegado</h2>
+        <p>No tenés permisos para crear monedas.</p>
+        <a href="/Home/Index" class="btn-volver">Volver al inicio</a>
+    </div>
+}
+else
+{
+    <div class="login-container">
+
+        @if (ViewBag.MensajeExito != null)
+        {
+            <div class="alert alert-success text-center">
+                @ViewBag.MensajeExito
+            </div>
+        }
+
+        <form asp-action="Index" method="post" class="login-form">
+            <h2>Registrar Moneda</h2>
+
+            <div class="form-group">
+                <input asp-for="Nombre" placeholder="Nombre de la moneda" class="form-control" />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input asp-for="Precio" placeholder="Precio" class="form-control" type="number" step="0.01" />
+                <span asp-validation-for="Precio" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input asp-for="Cantidad" placeholder="Cantidad disponible" class="form-control" type="number" step="0.0001" />
+                <span asp-validation-for="Cantidad" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input asp-for="Url" placeholder="URL de imagen (opcional)" class="form-control" />
+                <span asp-validation-for="Url" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">Guardar Moneda</button>
+
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div class="text-danger mt-2">
+                    Corrige los errores en el formulario.
+                </div>
+            }
+        </form>
+    </div>
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/altamoneda.css" />
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
