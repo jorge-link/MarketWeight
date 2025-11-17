@@ -2,13 +2,15 @@ body {
     margin: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(135deg, #667eea, #764ba2);
+    overflow-x: hidden;
 }
 
 .login-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: calc(100vh - 70px);
+    min-height: calc(100vh - 70px);
+    margin-top: 70px;
     margin: 0;
     padding: 0;
     overflow: hidden;
