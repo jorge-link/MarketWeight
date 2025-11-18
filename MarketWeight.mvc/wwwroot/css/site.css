@@ -6,6 +6,7 @@ html {
   html {
     font-size: 16px;
   }
+    
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
@@ -18,5 +19,14 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+   padding-top: 80px;
+}
+
+
+
+/* Cuando el navbar está colapsado (pantallas chicas) */
+@media (max-width: 991px) {
+    body {
+        padding-top: 140px !important;
+    }
 }
