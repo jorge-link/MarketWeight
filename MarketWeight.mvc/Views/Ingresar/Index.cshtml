@@ -1,50 +1,61 @@
+@inject IHttpContextAccessor HttpContextAccessor
 @{
     ViewData["Title"] = "Ingresar Dinero";
+    int? idUsuarioSesion = HttpContextAccessor.HttpContext.Session.GetInt32("IdUsuario");
 }
 
-<div class="home-container">
-    <div class="home-card">
-        <h1 class="mb-3">Ingresar <span class="brand">Dinero</span></h1>
-        <p class="text-muted fs-5 fw-semibold mt-2 mb-4">Coloca el monto que deseas ingresar a tu cuenta</p>
-
-        <form asp-action="Index" asp-controller="Ingresar" method="post" class="mt-4">
-
-            <!-- Campo de cantidad -->
-            <div class="mb-3">
-                <label for="Cantidad" class="form-label fw-bold">Monto a ingresar</label>
-                <input type="number" name="Cantidad" id="Cantidad"
-                       class="form-control rounded-pill shadow-sm"
-                       step="0.01" min="0.01"
-                       required placeholder="Ej: 100.00" />
-            </div>
-
-            <!-- Botón -->
-            <div class="d-grid mt-4">
-                <button type="submit" class="btn btn-success rounded-pill fw-bold shadow-sm">
-                    Ingresar Dinero
-                </button>
-            </div>
-        </form>
-
-        <!-- Mensaje de éxito opcional -->
-        @if (ViewBag.Mensaje != null)
-        {
-            <div class="alert alert-success mt-4">
-                @ViewBag.Mensaje
-            </div>
-        }
-
-        <!-- Mensajes de error -->
-        @if(ViewData.ModelState.ErrorCount > 0)
-        {
-            <div class="alert alert-danger mt-4">
-                <ul class="mb-0">
-                    @foreach(var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
-                    {
-                        <li>@error.ErrorMessage</li>
-                    }
-                </ul>
-            </div>
-        }
+@if (idUsuarioSesion == null)
+{
+    <div class="not-allowed">
+        <h2>Acceso denegado</h2>
+        <p>No Iniciaste Sesion A mi no me inyectan nada, gei.</p>
+        <a href="/Login/Index" class="btn-volver">Inicia Sesion</a>
     </div>
-</div>
+}else{
+    <div class="home-container">
+        <div class="home-card">
+            <h1 class="mb-3">Ingresar <span class="brand">Dinero</span></h1>
+            <p class="text-muted fs-5 fw-semibold mt-2 mb-4">Coloca el monto que deseas ingresar a tu cuenta</p>
+
+            <form asp-action="Index" asp-controller="Ingresar" method="post" class="mt-4">
+
+                <!-- Campo de cantidad -->
+                <div class="mb-3">
+                    <label for="Cantidad" class="form-label fw-bold">Monto a ingresar</label>
+                    <input type="number" name="Cantidad" id="Cantidad"
+                        class="form-control rounded-pill shadow-sm"
+                        step="0.01" min="0.01"
+                        required placeholder="Ej: 100.00" />
+                </div>
+
+                <!-- Botón -->
+                <div class="d-grid mt-4">
+                    <button type="submit" class="btn btn-success rounded-pill fw-bold shadow-sm">
+                        Ingresar Dinero
+                    </button>
+                </div>
+            </form>
+
+            <!-- Mensaje de éxito opcional -->
+            @if (ViewBag.Mensaje != null)
+            {
+                <div class="alert alert-success mt-4">
+                    @ViewBag.Mensaje
+                </div>
+            }
+
+            <!-- Mensajes de error -->
+            @if(ViewData.ModelState.ErrorCount > 0)
+            {
+                <div class="alert alert-danger mt-4">
+                    <ul class="mb-0">
+                        @foreach(var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                        {
+                            <li>@error.ErrorMessage</li>
+                        }
+                    </ul>
+                </div>
+            }
+        </div>
+    </div>
+}

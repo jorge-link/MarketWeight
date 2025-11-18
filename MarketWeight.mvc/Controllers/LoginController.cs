@@ -85,7 +85,7 @@ namespace MarketWeight.mvc.Controllers
                 Nombre = model.Nombre,
                 Apellido = model.Apellido,
                 Email = model.Email,
-                Password = model.Password, // recordá cifrar si querés
+                Password = model.Password,
                 Saldo = 0
             };
 

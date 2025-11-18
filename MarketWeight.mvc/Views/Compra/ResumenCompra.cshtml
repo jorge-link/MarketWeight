@@ -1,15 +1,25 @@
 @model dynamic
+@inject IHttpContextAccessor HttpContextAccessor
 
 @{
     ViewData["Title"] = "Resumen de Compra";
+    int? idUsuarioSesion = HttpContextAccessor.HttpContext.Session.GetInt32("IdUsuario");
 }
+@if (idUsuarioSesion == null)
+{
+    <div class="not-allowed">
+        <h2>Acceso denegado</h2>
+        <p>No Iniciaste Sesion A mi no me inyectan nada, gei.</p>
+        <a href="/Login/Index" class="btn-volver">Inicia Sesion</a>
+    </div>
+}else{
+    <h2>Resumen de Compra</h2>
 
-<h2>Resumen de Compra</h2>
+    <p><strong>Usuario:</strong> @Model.Usuario</p>
+    <p><strong>Moneda:</strong> @Model.Moneda</p>
+    <p><strong>Cantidad:</strong> @Model.Cantidad</p>
+    <p><strong>Precio Unitario:</strong> @Model.PrecioUnitario</p>
+    <p><strong>Total:</strong> @Model.Total</p>
 
-<p><strong>Usuario:</strong> @Model.Usuario</p>
-<p><strong>Moneda:</strong> @Model.Moneda</p>
-<p><strong>Cantidad:</strong> @Model.Cantidad</p>
-<p><strong>Precio Unitario:</strong> @Model.PrecioUnitario</p>
-<p><strong>Total:</strong> @Model.Total</p>
-
-<a asp-action="ComprarMoneda" class="btn btn-secondary mt-3">Realizar otra compra</a>
+    <a asp-action="ComprarMoneda" class="btn btn-secondary mt-3">Realizar otra compra</a>
+}

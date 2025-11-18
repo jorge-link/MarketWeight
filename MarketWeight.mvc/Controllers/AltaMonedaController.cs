@@ -21,7 +21,6 @@ namespace MarketWeight.mvc.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            // Validación simple de admin: si no es admin, mostrar error
             string? email = HttpContext.Session.GetString("EmailUsuario");
             if (string.IsNullOrEmpty(email) || email.Trim().ToLower() != "admin@admin.com")
             {
@@ -31,14 +30,14 @@ namespace MarketWeight.mvc.Controllers
             return View();
         }
 
-        // POST: /AltaMoneda/Index
+       
        [HttpPost]
         public async Task<IActionResult> Index(VMAltaMoneda model)
         {
             string? email = HttpContext.Session.GetString("EmailUsuario");
             if (string.IsNullOrEmpty(email) || email.Trim().ToLower() != "admin@admin.com")
             {
-                return Forbid(); // solo admin puede
+                return Forbid();
             }
 
             if (!ModelState.IsValid)
@@ -55,9 +54,9 @@ namespace MarketWeight.mvc.Controllers
             try
             {
                 await _repoMoneda.AltaAsync(nuevaMoneda);
-                ViewBag.MensajeExito = "La moneda se creó con éxito"; // <-- mensaje de éxito
-                ModelState.Clear(); // limpia los campos del formulario
-                return View(); // vuelve a la misma vista
+                ViewBag.MensajeExito = "La moneda se creó con éxito"; 
+                ModelState.Clear();
+                return View();
             }
             catch (ConstraintException ex)
             {

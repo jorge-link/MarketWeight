@@ -57,7 +57,7 @@
                         </li>
                         @if(Email == "admin@admin.com"){
                             <li class="nav-item">
-                                <a href="/AltaMoneda/Index" class="nav-link @(currentController=="Usuario"?"active":"")">Crear Monedas</a>
+                                <a href="/AltaMoneda/Index" class="nav-link @(currentController=="AltaMoneda"?"active":"")">Crear Monedas</a>
                             </li>
                         }
                         <li class="nav-item">
@@ -69,7 +69,7 @@
                     else
                     {
                         <li class="nav-item">
-                            <a href="/Login/Index" class="nav-link @(currentController=="Login"?"active":"")">Iniciar Sesión</a>
+                            <a href="/Login/Index" class="nav-link @(currentController=="Login" && currentAction=="Index"?"active":"")">Iniciar Sesión</a>
                         </li>
                         <li class="nav-item">
                             <a href="/Login/Registro" class="nav-link @(currentController=="Login" && currentAction=="Registro"?"active":"")">Registrarse</a>

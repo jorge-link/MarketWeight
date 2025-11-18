@@ -1,78 +1,86 @@
 @model List<MarketWeight.mvc.ViewModels.VMUsuarioMoneda>
-
+@inject IHttpContextAccessor HttpContextAccessor
 @{
     ViewData["Title"] = "Vender Moneda";
+    int? idUsuarioSesion = HttpContextAccessor.HttpContext.Session.GetInt32("IdUsuario");
 }
-
-<div class="home-container">
-    <div class="home-card">
-        <h1 class="mb-3">Vender <span class="brand">Moneda</span></h1>
-        <p class="text-muted fs-5 fw-semibold mt-2 mb-4">Selecciona la moneda y la cantidad que deseas vender</p>
-
-        <!-- Mensajes -->
-        @if (TempData["Error"] != null)
-        {
-            <div class="alert alert-danger text-center">
-                @TempData["Error"]
-            </div>
-        }
-
-        @if (TempData["Success"] != null)
-        {
-            <div class="alert alert-success text-center">
-                @TempData["Success"]
-            </div>
-        }
-
-        @if (Model.Count == 0)
-        {
-            <div class="alert alert-info mt-3"> no tienes monedas disponibles para vender</div>
-         
-        }
-        else
-        {
-            <form asp-action="Vender" method="post" class="mt-4">
-
-                <!-- Selección de moneda -->
-                <div class="mb-3">
-                    <label for="IdMoneda" class="form-label fw-bold">Selecciona una moneda</label>
-                    <select name="idMoneda" class="form-select rounded-pill shadow-sm" required id="monedaSelect">
-                        <option value="">-- Elige una moneda --</option>
-                        @foreach (var m in Model)
-                        {
-                            <option value="@m.IdMoneda" data-img="@m.Url" data-max="@m.Cantidad">
-                                @m.Nombre (Disponible: @m.Cantidad)
-                            </option>
-                        }
-                    </select>
-                </div>
-
-                <!-- Imagen de la moneda -->
-                <div class="mb-3 text-center" id="monedaImagenContainer" style="display:none;">
-                    <img id="monedaImagen" src="" alt="Imagen de la moneda" 
-                         class="img-fluid rounded shadow-sm" style="max-height:120px;" />
-                </div>
-
-                <!-- Cantidad -->
-                <div class="mb-3">
-                    <label for="cantidad" class="form-label fw-bold">Cantidad</label>
-                    <input type="number" id="cantidadInput" name="cantidad" 
-                           class="form-control rounded-pill shadow-sm"
-                           step="0.00000001" min="0.00000001" required placeholder="Cantidad a vender" />
-                    <small class="text-muted" id="cantidadMaxInfo"></small>
-                </div>
-
-                <!-- Botón -->
-                <div class="d-grid mt-4">
-                    <button type="submit" class="btn btn-danger rounded-pill fw-bold shadow-sm">
-                        Vender
-                    </button>
-                </div>
-            </form>
-        }
+@if (idUsuarioSesion == null)
+{
+    <div class="not-allowed">
+        <h2>Acceso denegado</h2>
+        <p>No Iniciaste Sesion A mi no me inyectan nada, gei.</p>
+        <a href="/Login/Index" class="btn-volver">Inicia Sesion</a>
     </div>
-</div>
+}else{
+    <div class="home-container">
+        <div class="home-card">
+            <h1 class="mb-3">Vender <span class="brand">Moneda</span></h1>
+            <p class="text-muted fs-5 fw-semibold mt-2 mb-4">Selecciona la moneda y la cantidad que deseas vender</p>
 
+            <!-- Mensajes -->
+            @if (TempData["Error"] != null)
+            {
+                <div class="alert alert-danger text-center">
+                    @TempData["Error"]
+                </div>
+            }
+
+            @if (TempData["Success"] != null)
+            {
+                <div class="alert alert-success text-center">
+                    @TempData["Success"]
+                </div>
+            }
+
+            @if (Model.Count == 0)
+            {
+                <div class="alert alert-info mt-3"> no tienes monedas disponibles para vender</div>
+            
+            }
+            else
+            {
+                <form asp-action="Vender" method="post" class="mt-4">
+
+                    <!-- Selección de moneda -->
+                    <div class="mb-3">
+                        <label for="IdMoneda" class="form-label fw-bold">Selecciona una moneda</label>
+                        <select name="idMoneda" class="form-select rounded-pill shadow-sm" required id="monedaSelect">
+                            <option value="">-- Elige una moneda --</option>
+                            @foreach (var m in Model)
+                            {
+                                <option value="@m.IdMoneda" data-img="@m.Url" data-max="@m.Cantidad">
+                                    @m.Nombre (Disponible: @m.Cantidad)
+                                </option>
+                            }
+                        </select>
+                    </div>
+
+                    <!-- Imagen de la moneda -->
+                    <div class="mb-3 text-center" id="monedaImagenContainer" style="display:none;">
+                        <img id="monedaImagen" src="" alt="Imagen de la moneda" 
+                            class="img-fluid rounded shadow-sm" style="max-height:120px;" />
+                    </div>
+
+                    <!-- Cantidad -->
+                    <div class="mb-3">
+                        <label for="cantidad" class="form-label fw-bold">Cantidad</label>
+                        <input type="number" id="cantidadInput" name="cantidad" 
+                            class="form-control rounded-pill shadow-sm"
+                            step="0.00000001" min="0.00000001" required placeholder="Cantidad a vender" />
+                        <small class="text-muted" id="cantidadMaxInfo"></small>
+                    </div>
+
+                    <!-- Botón -->
+                    <div class="d-grid mt-4">
+                        <button type="submit" class="btn btn-danger rounded-pill fw-bold shadow-sm">
+                            Vender
+                        </button>
+                    </div>
+                </form>
+            }
+        </div>
+    </div>
+}
 <script>
     document.getElementById("monedaSelect").addEventListener("change", function () {
         const selected = this.options[this.selectedIndex];

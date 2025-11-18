@@ -1,52 +1,62 @@
 @model List<MarketWeight.mvc.ViewModels.VMUsuarioMoneda>
+@inject IHttpContextAccessor HttpContextAccessor
 
 @{
     ViewData["Title"] = "Mis Monedas";
+    int? idUsuarioSesion = HttpContextAccessor.HttpContext.Session.GetInt32("IdUsuario");
 }
-
-<div class="home-container">
-    <div class="home-card">
-        <h1>Mis <span class="brand">Monedas</span></h1>
-        <p class="text-muted fs-5 fw-semibold mt-2 mb-4">Aquí puedes ver las monedas que posees actualmente.</p>
-
-        @if (Model == null || !Model.Any())
-        {
-            <div class="alert alert-info mt-3">
-                No tienes monedas todavía.
-            </div>
-        }
-        else
-        {
-            <div class="table-responsive mt-3">
-                <table class="table table-striped table-bordered align-middle text-center">
-                    <thead class="table-light">
-                        <tr>
-                            <th>Imagen</th>
-                            <th>Nombre</th>
-                            <th>Cantidad</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model)
-                        {
-                            <tr>
-                                <td>
-                                    @if (!string.IsNullOrEmpty(item.Url))
-                                    {
-                                        <img src="@item.Url" alt="@item.Nombre" style="height:40px;" />
-                                    }
-                                    else
-                                    {
-                                        <span>-</span>
-                                    }
-                                </td>
-                                <td>@item.Nombre</td>
-                                <td>@item.Cantidad</td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-        }
+@if (idUsuarioSesion == null)
+{
+    <div class="not-allowed">
+        <h2>Acceso denegado</h2>
+        <p>No Iniciaste Sesion A mi no me inyectan nada, gei.</p>
+        <a href="/Login/Index" class="btn-volver">Inicia Sesion</a>
     </div>
-</div>
+}else{
+    <div class="home-container">
+        <div class="home-card">
+            <h1>Mis <span class="brand">Monedas</span></h1>
+            <p class="text-muted fs-5 fw-semibold mt-2 mb-4">Aquí puedes ver las monedas que posees actualmente.</p>
+
+            @if (Model == null || !Model.Any())
+            {
+                <div class="alert alert-info mt-3">
+                    No tienes monedas todavía.
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive mt-3">
+                    <table class="table table-striped table-bordered align-middle text-center">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Imagen</th>
+                                <th>Nombre</th>
+                                <th>Cantidad</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @if (!string.IsNullOrEmpty(item.Url))
+                                        {
+                                            <img src="@item.Url" alt="@item.Nombre" style="height:40px;" />
+                                        }
+                                        else
+                                        {
+                                            <span>-</span>
+                                        }
+                                    </td>
+                                    <td>@item.Nombre</td>
+                                    <td>@item.Cantidad</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+}
