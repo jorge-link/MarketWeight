@@ -3,11 +3,11 @@
   <img src="https://et12.edu.ar/imgs/computacion/vamoaprogramabanner.png" alt="Banner Computación">
 </p>
 
-## Computación 2024
+## Computación 2025
 
-**Asignatura**: Administracion y Gestion de Base de Datos
+**Asignatura**: Programacion sobre redes
 
-**Curso**: 5° 8°
+**Curso**: 6° 8°
 
 # MarketWeight
 
@@ -42,10 +42,9 @@ mysql -u tuUsuario -p
 source Install.sql
 ```
 
-- Ahora desde la carpeta `MarketWeight.Ado.Dapper.Test` puede correr cualquier prueba o en la terminal integrada escribir este comando para correrlas al mismo tiempo.
-
+- Ahora desde La rama (branch) MVC_Final despliegue la consola de comandos y ejecute 
 ```shell
-dotnet test -v d
+dotnet watch run --project "c:TusCarpetas\MarketWeight\MarketWeight.mvc\MarketWeight.mvc.csproj"
 ```
 
 ## Construido con 🛠️
@@ -60,11 +59,9 @@ Usamos [SemVer](http://semver.org/) para el versionado. Para todas las versiones
 
 ## Autores ✒️
 
-- **Carlos Bello** - [carlete-afk](https://github.com/carlete-afk)
-- **Walter Benítez** - [Walter-Cooking](https://github.com/Walter-Cooking)
 - **Jorge Casco** - [jorge-link](https://github.com/jorge-link)
 - **Guido Gavilán** - [guido-rar](https://github.com/guido-rar)
-- **Francisco García** - [SirFrancis2007](https://github.com/SirFrancis2007) 
+
 
 ## Licencia 📄
 
